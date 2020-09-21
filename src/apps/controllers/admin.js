@@ -1,3 +1,6 @@
 module.exports.dashboard = (req, res) => {
-  res.send("<h1>Admin</h1>");
+  // const a = [1, 2, 3, 4, 5];
+  // res.render("demo", { a });
+
+  res.render("admin/dashboard");
 };
