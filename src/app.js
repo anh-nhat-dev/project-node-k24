@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+// Connect mongoDB
+require("./common/mongoDB");
+
 // Static file
 app.use("/static", express.static(__dirname + "/public"));
 
