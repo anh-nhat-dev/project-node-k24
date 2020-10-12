@@ -1,10 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 
 const app = express();
 
 // Connect mongoDB
 require("./common/mongoDB");
+
+// Using session
+
+app.use(
+  session({
+    secret: "vietpro",
+    resave: true,
+  })
+);
 
 // Static file
 app.use("/static", express.static(__dirname + "/public"));

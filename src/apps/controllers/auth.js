@@ -3,41 +3,35 @@ const mongoose = require("mongoose");
 const UserModel = mongoose.model("User");
 
 module.exports.getLogin = (req, res) => {
-  // UserModel.find({}).exec((err, docs) => {
-  //   console.log("module.exports.getLogin -> docs", docs);
-  // });
-
-  // UserModel.updateOne(
-  //   { _id: "5f71e02a84f000fd3856854f" },
-  //   {
-  //     $set: {
-  //       password: "654321",
-  //     },
-  //   },
-  //   (err, data) => {
-  //     console.log("data", data);
-  //   }
-  // );
-
   res.render("login", { error: null });
 };
 
-module.exports.postLogin = (req, res) => {
+module.exports.postLogin = async (req, res) => {
   const { mail, pass } = req.body;
+  const { redirect } = req.query;
 
   let error;
 
-  UserModel.findOne({ email: mail }, (err, doc) => doc).then((user) => {
-    if (!user) {
-      error = "Tài khoản không tồn tại!";
-    }
-    if (user && user.password !== pass) {
-      error = "Mật khẩu không đúng!";
-    }
+  const user = await UserModel.findOne({ user_mail: mail });
 
-    const users = UserModel.find((err, docs) => docs).then((docs) => {
-      return error ? res.render("login", { error }) : res.redirect("/admin");
-    });
-  });
+  if (!user) {
+    error = "Tài khoản không tồn tại!";
+  }
+  if (user && user.user_pass !== pass) {
+    error = "Mật khẩu không đúng!";
+  }
+
+  if (error) {
+    return res.render("login", { error });
+  }
+
+  req.session.user = user;
+  res.redirect(redirect ? redirect : "/admin");
+
   // console.log("module.exports.postLogin -> user", user);
+};
+
+module.exports.logout = (req, res) => {
+  delete req.session.user;
+  return res.redirect("/login");
 };
