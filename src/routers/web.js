@@ -23,6 +23,13 @@ router
   .post(upload.single("prd_image"), ProductController.store);
 
 router
+  .route("/admin/products/:id/edit")
+  .get(ProductController.edit)
+  .post(upload.single("prd_image"), ProductController.update);
+
+router.get("/admin/products/:id/delete", ProductController.destroy);
+
+router
   .route("/login")
   .all(checkLogin)
   .get(AuthController.getLogin)
