@@ -4,15 +4,20 @@ const path = require("path");
 const AdminController = require("../apps/controllers/admin");
 const AuthController = require("../apps/controllers/auth");
 const ProductController = require("../apps/controllers/product");
+const SiteController = require("../apps/controllers/site");
+
 const checkGuest = require("../apps/middlewares/check-guest");
 const checkLogin = require("../apps/middlewares/check-login");
 const checkLevel = require("../apps/middlewares/check-level");
 const upload = multer({ dest: path.resolve("temp") });
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send("<h1>Hello</h1>");
-});
+router.get("/", SiteController.home);
+router.get("/category.:id", SiteController.category);
+router.get("/product", SiteController.product);
+router.get("/search", SiteController.search);
+router.get("/cart", SiteController.cart);
+router.get("/order-success", SiteController.orderSuccess);
 
 router.use("/admin", checkGuest, checkLevel);
 router.get("/admin", AdminController.dashboard);

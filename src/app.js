@@ -16,6 +16,8 @@ app.use(
   })
 );
 
+app.use(require("./apps/middlewares/share"));
+
 // Static file
 app.use("/static", express.static(__dirname + "/public"));
 
