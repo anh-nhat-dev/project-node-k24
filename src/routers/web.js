@@ -14,10 +14,11 @@ const router = Router();
 
 router.get("/", SiteController.home);
 router.get("/category.:id", SiteController.category);
-router.get("/product", SiteController.product);
+router.get("/product.:id", SiteController.product);
 router.get("/search", SiteController.search);
 router.get("/cart", SiteController.cart);
 router.get("/order-success", SiteController.orderSuccess);
+router.post("/comments", SiteController.comment);
 
 router.use("/admin", checkGuest, checkLevel);
 router.get("/admin", AdminController.dashboard);

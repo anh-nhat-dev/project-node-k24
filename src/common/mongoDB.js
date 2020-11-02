@@ -4,6 +4,7 @@ const config = require("config");
 require("../apps/models/users");
 require("../apps/models/product");
 require("../apps/models/categories");
+require("../apps/models/comment");
 
 const uris = config.get("databases.mongo");
 
