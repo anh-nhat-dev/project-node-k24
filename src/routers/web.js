@@ -9,6 +9,7 @@ const SiteController = require("../apps/controllers/site");
 const checkGuest = require("../apps/middlewares/check-guest");
 const checkLogin = require("../apps/middlewares/check-login");
 const checkLevel = require("../apps/middlewares/check-level");
+const { route } = require("../app");
 const upload = multer({ dest: path.resolve("temp") });
 const router = Router();
 
@@ -17,8 +18,12 @@ router.get("/category.:id", SiteController.category);
 router.get("/product.:id", SiteController.product);
 router.get("/search", SiteController.search);
 router.get("/cart", SiteController.cart);
+router.get("/cart/delete.:id", SiteController.deleteCart);
+router.post("/cart", SiteController.updateCart);
 router.get("/order-success", SiteController.orderSuccess);
 router.post("/comments", SiteController.comment);
+
+router.post("/add-to-cart", SiteController.addToCart);
 
 router.use("/admin", checkGuest, checkLevel);
 router.get("/admin", AdminController.dashboard);

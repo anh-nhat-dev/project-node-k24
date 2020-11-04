@@ -45,7 +45,24 @@
                                     <% } %>
                                 </li>
                             </ul>
-                            <div id="add-cart"><a href="#">Mua ngay</a></div>
+
+                            <% if (product.prd_status){ %>
+                            <form method="post" action="/add-to-cart">
+                                <input type="hidden" value="<%= product.id %>" name="prd_id" />
+                                <div class="form-row align-items-center">
+                                <div class="col-sm-3 my-1">
+                                    <div class="input-group">
+                                    <input type="number" class="form-control" min="1" value="1" name="qty" id="quantity" placeholder="Số lượng">
+                                    </div>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <button type="submit" class="btn btn-primary">
+                                    Add to cart
+                                    </button>
+                                </div>
+                                </div>
+                            </form>
+                            <% } %>
                         </div>
                     </div>
                     <div id="product-body" class="row">

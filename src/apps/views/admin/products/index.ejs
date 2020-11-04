@@ -117,7 +117,6 @@
     <%- include("../layout/foot") %>
     <script src="js/bootstrap-table.js"></script>	
     <script>
-            console.log($("[ref=remove_product]"))
         $(document).ready(() => {
                 $("[ref=remove_product]").on("click", (e) => {
 
@@ -126,8 +125,6 @@
                 if (!check) {
                     e.preventDefault()
                 }
-
-
             })
         })
 

@@ -113,5 +113,61 @@ module.exports.comment = async (req, res) => {
   res.redirect(`/product.${body.prd_id}#comments-list`);
 };
 
-module.exports.cart = (req, res) => {};
+module.exports.cart = async (req, res) => {
+  const cart = req.session.cart;
+
+  res.render("site/cart", { cart, totalPrice: 0 });
+};
 module.exports.orderSuccess = (req, res) => {};
+
+module.exports.addToCart = async (req, res) => {
+  const cart = req.session.cart;
+  const body = req.body;
+
+  let isProductExists = false;
+
+  cart.map((item) => {
+    if (!isProductExists && body.prd_id === item.id) {
+      isProductExists = true;
+      item.qty += parseInt(body.qty);
+    }
+    return item;
+  });
+
+  if (!isProductExists) {
+    const product = await productModel.findById(body.prd_id);
+
+    cart.push({
+      id: body.prd_id,
+      qty: parseInt(body.qty),
+      img: product.prd_image,
+      name: product.prd_name,
+      price: product.prd_price,
+    });
+  }
+
+  req.session.cart = cart;
+
+  res.redirect(`/product.${body.prd_id}`);
+};
+module.exports.updateCart = (req, res) => {
+  const body = req.body;
+  const items = body.items;
+  const cart = req.session.cart;
+
+  cart.map((item) => {
+    if (items[item.id]) {
+      item.qty = parseInt(items[item.id]);
+    }
+    return item;
+  });
+
+  req.session.cart = cart;
+  res.redirect("/cart");
+};
+
+module.exports.deleteCart = (req, res) => {
+  const id = req.params.id;
+  req.session.cart = req.session.cart.filter((item) => item.id !== id);
+  res.redirect("/cart");
+};
